@@ -1,0 +1,4 @@
+state management sharing the state across applications and achieve sync in state across application
+context api-solves problem of prop drilling
+what is context api? 
+it is a way to pass data through the component tree without having to pass props down manually at every level. 
