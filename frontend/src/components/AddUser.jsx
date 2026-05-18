@@ -33,6 +33,7 @@ function AddUser() {
     formState: { errors },
   } = useForm();
 
+  const today = new Date().toISOString().split("T")[0];
   let [error, setError] = useState(null);
   let [loading, setLoading] = useState(false);
   let navigate = useNavigate();
@@ -120,10 +121,15 @@ function AddUser() {
               id="dateOfBirth"
               type="date"
               className="field-input"
-              {...register("dateOfBirth", { required: true })}
+              max={today}
+              {...register("dateOfBirth", {
+                required: "Date of birth is required.",
+                validate: (value) =>
+                  value <= today || "Date of birth cannot be in the future.",
+              })}
             />
             {errors.dateOfBirth && (
-              <p className="field-error">Date of birth is required.</p>
+              <p className="field-error">{errors.dateOfBirth.message}</p>
             )}
           </div>
 
@@ -133,13 +139,21 @@ function AddUser() {
             </label>
             <input
               id="mobileNumber"
-              type="number"
+              type="tel"
+              inputMode="numeric"
+              maxLength={10}
               placeholder="9999999999"
               className="field-input"
-              {...register("mobileNumber", { required: true })}
+              {...register("mobileNumber", {
+                required: "Mobile number is required.",
+                pattern: {
+                  value: /^[0-9]{10}$/,
+                  message: "Enter a valid 10-digit phone number.",
+                },
+              })}
             />
             {errors.mobileNumber && (
-              <p className="field-error">Mobile number is required.</p>
+              <p className="field-error">{errors.mobileNumber.message}</p>
             )}
           </div>
 
